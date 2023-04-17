@@ -107,20 +107,26 @@ function animadors(){
 function metermapa(pieza){
   for(let f = 0; f < pieza.forma.length; f++)
     for(let c = 0; c < pieza.forma[f].length; c++){
-      console.log(pieza.forma[f][c] == 1)
+      //console.log(pieza.forma[f][c] == 1)
       if(pieza.forma[f][c] == 1)
         mapa[f+pieza.fila][c+pieza.col] = pieza.color
     }
 }
 function hachocado(pieza){
-  //for (let fila = 0; fila < pieza.forma.length; fila++)
+  for (let fila = 0; fila < pieza.forma.length; fila++)
+    for(let col = 0; col < pieza.forma[fila].length; col++){
+      console.log(fila+pieza.fila, col+pieza.col)
+      if(mapa[fila][col] != 0)
+      return true
   //Si llega al suelo, la añadimos a piezas
+
+  }
   return false
 }
 function dibujarmapa(){
   for(let f = 0; f < mapa.length; f++)
     for(let c = 0; c < mapa[f].length; c++){
-      if(mapa[f][c] == 1)
+      if(mapa[f][c] != 0)
         dibujarcubo(f, c, mapa[f][c])
   }
 }
