@@ -1,0 +1,32 @@
+body{
+  background-color: black;
+}
+h1{
+  color: White;
+}
+#div1{
+  border:5px solid pink;
+  margin:auto;
+  width: 800px;
+  height: 920px;
+  color: white;
+  display: grid;
+  grid-template-rows: 200px 720px;
+}
+#div11{
+  background-color: red;
+  display: grid;
+  grid-template-columns: 500px 300px;
+}
+#div12{
+  background-color: blue;
+}
+#div13{
+  background-color: green;
+}
+#div14{
+  background-color: yellow;
+}
+#canvas{
+   border:5px solid purple;
+}
