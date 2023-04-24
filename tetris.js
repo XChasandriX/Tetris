@@ -22,6 +22,7 @@ forma[6] = [[0,1,1],[1,1,0]]
 var canvas, ctx;
 let pieza
 let mapa = []
+let intervalo
 for (let i = 0; i < H; i++){
   mapa[i] = []
   for (let j = 0; j < W; j++)
@@ -65,7 +66,7 @@ function iniciar(){
 	ctx.lineWidth = 2
 	ctx.strokeStyle = 'white'
   generar()
-  setInterval(animadors, 1000)
+  intervalo = setInterval(animadors, 1000)
 }
 function dibujarcubo(fila, col, color){
   ctx.beginPath()
@@ -89,8 +90,12 @@ function animadors(){
   ctx.clearRect(0 ,0 , W*L, H*L);
   //Si choca, la añadimos a piezas
   if(hachocado(pieza)){
-    console.log('choca')
+    if (pieza.fila == 0)
+    fin_de_la_partida()
+    else {
+    metermapa(pieza)
     generar()
+    }
   }
   //La movemos hacia abajo
   else{
@@ -104,6 +109,9 @@ function animadors(){
     dibujarpieza(pieza)
     dibujarmapa()
 }
+function fin_de_la_partida(){
+  alert ("fin de la partida")
+}
 function metermapa(pieza){
   for(let f = 0; f < pieza.forma.length; f++)
     for(let c = 0; c < pieza.forma[f].length; c++){
@@ -115,11 +123,11 @@ function metermapa(pieza){
 function hachocado(pieza){
   for (let fila = 0; fila < pieza.forma.length; fila++)
     for(let col = 0; col < pieza.forma[fila].length; col++){
-      console.log(fila+pieza.fila, col+pieza.col)
-      if(mapa[fila][col] != 0)
-      return true
-  //Si llega al suelo, la añadimos a piezas
-
+    if (pieza.forma[fila][col] == 1)
+      if (fila+pieza.fila < H)
+        if (col+pieza.col < W)
+          if(mapa[fila+pieza.fila+1][col+pieza.col] != 0)
+            return true
   }
   return false
 }
