@@ -8,7 +8,7 @@ const colores = ["red", "green", "cyan", "pink", "purple", "orange"]
 //cuadrado
 forma[0] = [[1,1],[1,1]]
 //palo
-forma[1] = [[1,1,1,1]]
+forma[1] = [[0,0,0,0],[1,1,1,1]]
 //T
 forma[2] = [[1,1,1],[0,1,0]]
 //L
@@ -90,7 +90,7 @@ function animadors(){
   ctx.clearRect(0 ,0 , W*L, H*L);
   //Si choca, la añadimos a piezas
   if(hachocado(pieza)){
-    if (pieza.fila == 0)
+    if (pieza.fila <= -1)
     fin_de_la_partida()
     else {
     metermapa(pieza)
@@ -111,13 +111,16 @@ function animadors(){
 }
 function fin_de_la_partida(){
   alert ("fin de la partida")
+  clearInterval(intervalo)
 }
 function metermapa(pieza){
   for(let f = 0; f < pieza.forma.length; f++)
     for(let c = 0; c < pieza.forma[f].length; c++){
       //console.log(pieza.forma[f][c] == 1)
-      if(pieza.forma[f][c] == 1)
-        mapa[f+pieza.fila][c+pieza.col] = pieza.color
+      if (pieza.forma[f][c] == 1){
+        if (f+pieza.fila >= 0)
+          mapa[f+pieza.fila][c+pieza.col] = pieza.color
+      }
     }
 }
 function hachocado(pieza){
