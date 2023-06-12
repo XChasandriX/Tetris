@@ -4,7 +4,7 @@ const W = 10//Ancho del tetris
 const H = 10//Altura del tetris
 const L = 30
 const forma = []
-const colores = ["red", "green", "cyan", "pink", "purple", "orange"]
+const colores = ["red", "green", "cyan", "pink", "purple", "orange", "yellow"]
 //cuadrado
 forma[0] = [[1,1],[1,1]]
 //palo
@@ -43,6 +43,8 @@ function presionar(event){//Mover con flechas
     pieza.col = 0
   if (pieza.col > (W - pieza.forma[0].length) ){
     pieza.col = W - pieza.forma[0].length
+  event.preventDefault()
+  event.stopPropagation()
   }
 }
 function crearPieza(){
@@ -50,7 +52,7 @@ function crearPieza(){
   pieza ={
   forma: forma[nume],
   fila: -1,
-  col: W/2,
+  col: parseInt(W/2),
   color: colores[nume]
   }
 }
@@ -66,7 +68,7 @@ function iniciar(){
 	ctx.lineWidth = 2
 	ctx.strokeStyle = 'white'
   generar()
-  intervalo = setInterval(animadors, 1000)
+  intervalo = setInterval(animadors, 850)
 }
 function dibujarcubo(fila, col, color){
   ctx.beginPath()
@@ -94,6 +96,7 @@ function animadors(){
     fin_de_la_partida()
     else {
     metermapa(pieza)
+    quitar_f()
     generar()
     }
   }
@@ -103,11 +106,42 @@ function animadors(){
     if (pieza.fila >  H-3){
         metermapa(pieza)
         generar()
-        console.log(mapa)
+        quitar_f()
+        //console.log(mapa)
       }
   }
     dibujarpieza(pieza)
     dibujarmapa()
+}
+function quitar_f(){
+  console.log('quitar_f')
+
+  for(let j = 0; j < H; j++ ){
+    let hay0 = false
+    for(let i = 0;i < W; i++)
+      if (mapa[j][i] == 0)
+        hay0 = true
+    if (!hay0){
+      quitar_f2(j)
+      j--
+    }
+  }
+}
+
+
+function quitar_f2(fila){
+  console.log(fila)
+  for (let j = fila; j > 0; j--){
+    for (let i = 0; i < W; i++){
+      mapa[j][i] = mapa[j-1][i]
+    }
+  }
+  /*for (let i = 0; i < W; i++){
+    mapa[fila-1][i] = mapa[fila-2][i]
+  }
+  for (let i = 0; i < W; i++){
+    mapa[fila-2][i] = mapa[fila-3][i]
+  }*/
 }
 function fin_de_la_partida(){
   alert ("fin de la partida")
@@ -129,8 +163,10 @@ function hachocado(pieza){
     if (pieza.forma[fila][col] == 1)
       if (fila+pieza.fila < H)
         if (col+pieza.col < W)
-          if(mapa[fila+pieza.fila+1][col+pieza.col] != 0)
-            return true
+          if(mapa[fila+pieza.fila+1][col+pieza.col] != 0){
+            console.log(pieza.col)
+              return true
+          }
   }
   return false
 }
